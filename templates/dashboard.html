@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <h2>EventAI</h2>
+        <div class="user-info">
+            <p>{{ username }} ({{ role }})</p>
+        </div>
+        <ul>
+            <li onclick="showSection('events')" class="active">Events</li>
+            {% if role == 'user' %}
+            <li onclick="showSection('my-registrations')">My Registrations</li>
+            {% endif %}
+            <li onclick="showSection('agent')">AI Agent</li>
+            <li><a href="/logout" class="logout-btn">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <!-- Events Section -->
+        <div id="events-section" class="section active">
+            <div class="header">
+                <h2>All Events</h2>
+                {% if role == 'admin' %}
+                <button onclick="openCreateModal()">+ New Event</button>
+                {% endif %}
+            </div>
+            <div id="events-list" class="grid-container">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- My Registrations Section (User Only) -->
+        <div id="my-registrations-section" class="section" style="display:none;">
+            <h2>My Registrations</h2>
+            <div id="registrations-list" class="list-container">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- AI Agent Section -->
+        <div id="agent-section" class="section" style="display:none;">
+            <h2>AI Assistant</h2>
+            <div class="chat-interface">
+                <div id="chat-history" class="chat-history">
+                    <div class="message ai">
+                        Hello {{ username }}! I can help you manage events. Try commands like:
+                        <br>- "List events"
+                        {% if role == 'admin' %}
+                        <br>- "Create event Tech Talk on 2024-12-01 at Hall A"
+                        <br>- "Register user1 for Tech Talk"
+                        {% else %}
+                        <br>- "Register me for [Event Name]"
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="chat-input local-chat-input-area">
+                    <input type="text" id="agent-input" placeholder="Type a command...">
+                    <button onclick="sendCommand()">Send</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modals -->
+<div id="create-event-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('create-event-modal')">&times;</span>
+        <h3 id="modal-title">Manage Event</h3>
+        <input type="hidden" id="evt-id">
+        <input type="text" id="evt-title" placeholder="Title">
+        <input type="text" id="evt-desc" placeholder="Description">
+        <input type="datetime-local" id="evt-date">
+        <input type="text" id="evt-loc" placeholder="Location">
+        <button onclick="handleEventSubmit()">Save</button>
+    </div>
+</div>
+{% endblock %}

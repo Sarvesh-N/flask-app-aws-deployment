@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1>Welcome</h1>
+        <p>Event Management System & AI Agent</p>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('login')">Login</button>
+            <button class="tab-btn" onclick="showTab('register')">Register</button>
+        </div>
+
+        <div id="login-form">
+            <input type="text" id="login-username" placeholder="Username">
+            <div class="password-wrap">
+                <input type="password" id="login-password" placeholder="Password">
+                <span class="eye" onclick="togglePwd('login-password')">👁</span>
+            </div>
+            <button class="btn-primary" onclick="login()">Log In</button>
+
+
+        </div>
+
+        <div id="register-form" style="display:none;">
+            <input type="text" id="reg-username" placeholder="Choose Username">
+            <div class="password-wrap">
+                <input type="password" id="reg-password" placeholder="Choose Password">
+                <span class="eye" onclick="togglePwd('reg-password')">👁</span>
+            </div>
+
+            <select id="reg-role">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button class="btn-secondary" onclick="register()">Sign Up</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
